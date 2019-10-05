@@ -1,4 +1,6 @@
+import entity.Machine;
 import util.Bundle;
+import util.MachineReader;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,7 +14,7 @@ public class Main {
             System.out.println(Bundle.get("parametros.incorretos"));
             return;
         }
-        System.out.println(args[0]);
-        System.out.println(args[1]);
+
+        MachineReader.getMachine("C:/Users/Vinicius Zorzanelli/GIT/mealy_moore_converter/src/main/java/util/test.txt");
     }
 }
