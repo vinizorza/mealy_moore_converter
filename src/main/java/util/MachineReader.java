@@ -13,7 +13,6 @@ import java.util.List;
 
 public class MachineReader {
 
-
     public static Machine getMachine(String filePath){
 
         Enum<MachineType> type = null;
@@ -64,28 +63,63 @@ public class MachineReader {
                     transition.setDestination(destination);
 
                     transitions.add(transition);
-
                 }
 
                 machine.setTransitions(transitions);
 
             }else{
 
+                strStates = objReader.readLine().split(" ");
+                strInputAlphabet = objReader.readLine().split(" ");
+                strInitialState = objReader.readLine();
+                strFinalStates = objReader.readLine().split(" ");
+                strOutputAlphabet = objReader.readLine().split(" ");
+
+                while((currentLine = objReader.readLine()) != null && !"-----".equals(currentLine)){
+                    Transition transition = new Transition();
+                    String[] strTransition;
+                    strTransition = currentLine.split(" ");
+                    State source = new State(strTransition[0], null, Arrays.asList(strFinalStates).contains(strTransition[0]), strInitialState.equals(strTransition[0]));
+                    State destination = new State(strTransition[2], null, Arrays.asList(strFinalStates).contains(strTransition[2]), strInitialState.equals(strTransition[2]));
+
+                    transition.setInput(strTransition[1]);
+                    transition.setSource(source);
+                    transition.setDestination(destination);
+
+                    transitions.add(transition);
+                }
+
+                while((currentLine = objReader.readLine()) != null){
+
+                    String[] lineSplitted = currentLine.split(" ");
+
+                    if(lineSplitted.length > 1){
+                        String strState = lineSplitted[0];
+                        String output = lineSplitted[1];
+
+                        for (Transition transition: transitions) {
+                            if(transition.getSource().getLabel().equals(strState)){
+                                transition.getSource().setOutput(output);
+                            }
+
+                            if(transition.getDestination().getLabel().equals(strState)){
+                                transition.getDestination().setOutput(output);
+                            }
+                        }
+                    }
+
+                }
+
+                machine.setTransitions(transitions);
+
             }
 
-        } catch (IOException e) {
-
-            e.printStackTrace();
-
+        } catch (Exception e) {
+            Bundle.get("input.file.error");
         }
 
 
         return machine;
     }
-
-    public static void printMealyMachine(Machine mealyMachine){
-
-    }
-
 
 }

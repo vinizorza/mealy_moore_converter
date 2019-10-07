@@ -45,4 +45,8 @@ public class State {
     public void setInitial(boolean initial) {
         isInitial = initial;
     }
+
+    public boolean equals(Object state){
+        return this.getLabel().equals(((State) state).label);
+    }
 }
