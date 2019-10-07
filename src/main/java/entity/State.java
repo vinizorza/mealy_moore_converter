@@ -3,6 +3,7 @@ package entity;
 public class State {
 
     private String label;
+    private String oldLabel;
     private String output;
     private boolean isFinal;
     private boolean isInitial;
@@ -14,12 +15,22 @@ public class State {
         this.isInitial = isInitial;
     }
 
+    public State() {}
+
     public String getLabel() {
         return label;
     }
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public String getOldLabel() {
+        return oldLabel;
+    }
+
+    public void setOldLabel(String oldLabel) {
+        this.oldLabel = oldLabel;
     }
 
     public String getOutput() {
