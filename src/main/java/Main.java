@@ -1,3 +1,4 @@
+import core.Converter;
 import entity.Machine;
 import util.Bundle;
 import util.MachineReader;
@@ -19,9 +20,11 @@ public class Main {
         //Teste 01
         Machine mealy01 = MachineReader.getMachine("C:/Users/Vinicius Zorzanelli/GIT/mealy_moore_converter/test_examples/mealy01.txt");
         MachineWriter.writeMachine(mealy01, "C:/Users/Vinicius Zorzanelli/GIT/mealy_moore_converter/test_examples/mealy01_write.txt");
+        MachineWriter.writeMachine(Converter.convert(mealy01), "C:/Users/Vinicius Zorzanelli/GIT/mealy_moore_converter/test_examples/mealy01_converted.txt");
 
         //Teste 02
         Machine moore01 = MachineReader.getMachine("C:/Users/Vinicius Zorzanelli/GIT/mealy_moore_converter/test_examples/moore01.txt");
         MachineWriter.writeMachine(moore01, "C:/Users/Vinicius Zorzanelli/GIT/mealy_moore_converter/test_examples/moore01_write.txt");
+        MachineWriter.writeMachine(Converter.convert(moore01), "C:/Users/Vinicius Zorzanelli/GIT/mealy_moore_converter/test_examples/moore01_converted.txt");
     }
 }
