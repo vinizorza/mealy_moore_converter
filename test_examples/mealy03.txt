@@ -1,0 +1,12 @@
+mealy
+q0 q1 q2 q3
+a b c
+q0
+q1
+0 1
+q0 c q1 0
+q0 b q2 1
+q3 a q1 0
+q1 c q2 0
+q2 b q3 1
+q3 a q1 0

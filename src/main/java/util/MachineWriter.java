@@ -28,7 +28,6 @@ public class MachineWriter {
                     writer.println(getStringTransitionMealy(transition));
                 }
             }else{
-
                 writer.println(getStringOutputAlphabetMoore(machine.getTransitions()));
                 for (Transition transition: machine.getTransitions()) {
                     writer.println(getStringTransitionMoore(transition));

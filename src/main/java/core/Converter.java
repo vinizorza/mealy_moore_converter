@@ -33,30 +33,34 @@ public class Converter {
         machine.setType(MachineType.MOORE);
         ArrayList<State> states = getMachineStates(machine);
         ArrayList<Transition> newTransitions = new ArrayList<Transition>();
+        ArrayList<State> newStates = new ArrayList<State>();
         for (State state: states) {
             ArrayList<Transition> transitionsForState = getTransitionsForState(state, machine.getTransitions());
-            ArrayList<State> newStates = createNewStates(transitionsForState);
-            //TODO: certo até aqui
-            for (Transition transition: machine.getTransitions()) {
-                for (State newState: newStates) {
-                    if(transition.getDestination().getLabel().equals(newState.getOldLabel())
-                        && transition.getOutput().equals(newState.getOutput())){
-                        transition.setDestination(newState);
-//                        Transition newTransition = new Transition();
-//                        newTransition.setSource(newState);
-//                        newTransition.setDestination(transition.getDestination());
-//                        newTransition.setInput(transition.getInput());
-//                        newTransitions.add(newTransition);
-                    }
-                }
-            }
-
-            machine.getTransitions().addAll(newTransitions);
+            newStates.addAll(createNewStates(transitionsForState));
         }
 
+        for (Transition transition: machine.getTransitions()) {
+            for (State state: newStates) {
+                if (state.getOutput().equals(transition.getOutput())
+                        && state.getOldLabel().equals(transition.getDestination().getLabel())){
+                    transition.setDestination(state);
+                    transition.setOutput(state.getOutput());
+                }
+            }
+        }
 
+        for (Transition transition: machine.getTransitions()) {
+            if (transition.getDestination().getOldLabel() != null){
+                Transition newTransition = new Transition();
+                    newTransition.setSource(transition.getDestination());
+                    newTransition.setDestination(transition.getDestination());
+                    newTransition.setInput(transition.getInput());
+                    newTransitions.add(newTransition);
+            }
+        }
+        machine.getTransitions().addAll(newTransitions);
 
-        return null;
+        return machine;
     }
 
     private static ArrayList<State> createNewStates(ArrayList<Transition> transitionsForState) {
@@ -65,6 +69,10 @@ public class Converter {
             Boolean contains = false;
             for (State state: states) {
                 if(state.getOutput().equals(transition.getOutput())){
+                    contains = true;
+                }
+
+                if(transition.getDestination().isInitial()){
                     contains = true;
                 }
             }
@@ -92,20 +100,9 @@ public class Converter {
         return label;
     }
 
-    private static Integer getSizeDifferentsOutputs(ArrayList<Transition> transitionsForState) {
-        ArrayList<String> outputs = new ArrayList<String>();
-        for (Transition transition: transitionsForState) {
-            if(!outputs.contains(transition.getOutput())){
-                outputs.add(transition.getOutput());
-            }
-        }
-        return outputs.size();
-    }
-
     private static ArrayList<Transition> getTransitionsForState(State state, ArrayList<Transition> transitions) {
         ArrayList<Transition> transitionsForState = new ArrayList<Transition>();
 
-        //TODO: pegar todas as transicoes que levam ao mesmo estado, e para cada saída diferente criar um novo estado, fazendo o reapontamento
         for (Transition transition: transitions) {
             if(state.getLabel().equals(transition.getDestination().getLabel())) {
                 transitionsForState.add(transition);
